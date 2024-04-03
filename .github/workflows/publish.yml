@@ -15,7 +15,6 @@ jobs:
           always-auth: true
           node-version: 16
           registry-url: https://npm.pkg.github.com
-          scope: '@intento'
 
       - name: Install yarn
         run: npm i -g yarn
@@ -29,4 +28,4 @@ jobs:
       - name: Run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn publish-workspace
+        run: yarn publish
