@@ -1,0 +1,32 @@
+name: Publish packages
+
+on: [workflow_dispatch]
+
+jobs:
+  publish-package:
+    runs-on: [self-hosted, dc-intento]
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: 16
+          registry-url: https://npm.pkg.github.com
+          scope: '@intento'
+
+      - name: Install yarn
+        run: npm i -g yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build packages
+        run: yarn build
+
+      - name: Run publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn publish-workspace
